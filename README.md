@@ -1,414 +1,488 @@
-# Omega CivicFlow
+<div align="center">
 
-> **LLM + RAG 기반 대용량 한국어 문서 자동 분석 플랫폼**
-> DART 금융 공시 · 공공 민원 문서 대상 end-to-end 문서 지능 시스템
+```
+ ──────────────────────────────────────────────────────────────
 
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.135-009688?logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)
-![ChromaDB](https://img.shields.io/badge/ChromaDB-vector_store-FF6B6B)
-![License](https://img.shields.io/badge/License-Proprietary-lightgrey)
+      Ω    O M E G A   · ·   C I V I C F L O W    v4
+
+      A document-intelligence engine for
+      Korean regulatory filings.
+
+      ──────────────────────────────────────────
+
+      BUILD       2026.02  →  2026.04
+      SCOPE       1 engineer · 30,000+ LoC
+      STATUS      PHASE 4  /  LIVE
+
+ ──────────────────────────────────────────────────────────────
+```
+
+</div>
+
+<br/>
+
+<div align="center">
+
+### 이 저장소에는 단 하나의 파일만 존재합니다.
+
+##### 지금 읽고 계신 이 문서입니다.
+
+<br/>
+
+나머지 30,000 줄의 코드, 27 개 서비스, 4 개 에이전트, 그리고
+Omega-Prime 추론 프로토콜의 실제 프롬프트는 **이 저장소에 포함되어 있지 않습니다.**
+
+그것들은 존재합니다. 하지만 의도적으로 비공개입니다.
+
+이 페이지는 그 시스템의 **공개된 지표(public index)** 입니다.
+
+</div>
 
 ---
 
-## 프로젝트 개요
+## 왜 이렇게 되어 있는가
 
-대량의 한국어 금융·공공 문서를 **OCR → 청킹 → 벡터 임베딩 → RAG 검색 → LLM 분석 → 구조화 리포트 생성**까지 end-to-end로 자동화한 멀티모달 문서 지능 시스템입니다. DART OpenAPI 기반 약 80,000개 법인 공시 데이터와 PDF·HWP·XML 형식 공공 문서를 단일 파이프라인으로 처리합니다.
+이력서에 GitHub 주소가 한 줄 적혀 있었고, 당신은 그 링크를 따라 이 페이지에 도달했습니다.
 
-**개발 기간**: 2026-02 ~ 2026-04 (Phase 0 ~ Phase 4)
-**포지션**: Full-stack · ML/RAG 파이프라인 · DevOps
+대부분의 포트폴리오 저장소는 그 순간 이미 졌습니다. 10초 안에 전형적인 마크다운 템플릿·뱃지 나열·`git clone`이 보이고, 방문자의 뇌는 "또 그거"로 분류합니다. 스크롤이 멈춥니다.
 
----
+본 문서는 그와 반대 방향으로 설계되어 있습니다. **공개된 것이 적기 때문에, 공개된 것의 밀도는 높습니다.** 당신이 끝까지 읽는다면, 이 프로젝트의 기술적 깊이와 의사결정의 구조가 2–3 분 안에 전달될 것입니다. 그렇지 않다면 이 시스템은 당신에게 필요한 시스템이 아닐 가능성이 높습니다.
 
-## 핵심 성과
-
-| 지표 | 값 | 근거 |
-|---|---|---|
-| 벡터화 청크 수 | **284,000+** | BGE-M3 (1024-dim) · ChromaDB |
-| LLM 분석 문서 | **3,135건** | 상장사 공시 대상 narrative 분석 |
-| **분석 품질 통과율** | **92.5%** | 2,901 / 3,135 (too_short · 잘못된 이벤트 조합 등 제외) |
-| **근거 인용률 (evidence)** | **99%** | LLM 요약에 원문 근거 문장 첨부 — 설명가능성 지표 |
-| A100 임베딩 처리량 | **10–15분** | 284K 청크 / A100 40GB |
-| 코드 베이스 규모 | **30K+ LoC** | 27 services + 4 routers + 4 agents |
+<br/>
 
 ---
 
-## 주요 기능
+## 01 · THE NUMBERS
 
-### 1. 멀티포맷 문서 수집 & 처리
-- DART OpenAPI 연동 (상장·비상장 ~80K 법인 자동 동기화, corpCode.xml 캐싱)
-- PaddleOCR 기반 스캔 PDF 텍스트 추출 (한글 복원 · BOM/UTF-16 정규화)
-- HWP · XML · PDF 멀티포맷 파싱 통합 인터페이스
-- 대용량 파일 처리 (최대 700MB 단일 번들)
+```
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│    284,000+    vector chunks      BGE-M3 · 1024-dim          │
+│                                                              │
+│      3,135     filings analyzed   end-to-end narrative       │
+│                                                              │
+│      92.5 %    pass rate          2,901 / 3,135  (QC gated)  │
+│                                                              │
+│      99.0 %    evidence cite      explainability KPI         │
+│                                                              │
+│     10–15 m    full corpus        A100 40GB  ·  one run      │
+│                                                              │
+│     30,000+    LoC                27 services · 4 agents     │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
-### 2. RAG 검색 파이프라인
-- **BAAI bge-m3** 다국어 임베딩 (1024-dim · max_seq 512 · contextual header)
-- **ChromaDB** 영속 벡터 저장소
-- Cross-encoder 기반 리랭킹 (rerank ON/OFF 토글)
-- 계층 구조 헤더를 통한 긴 문서 검색 정확도 보정
-- Hybrid score: 벡터 유사도 + BM25 + 메타데이터 필터
+모두 측정된 값입니다. 재현용 데이터셋과 스크립트는 비공개 저장소에 존재합니다.
+수치의 검증은 개별 실연(offline demo)으로 제공합니다.
 
-### 3. LLM 서비스 레이어
-- **기본 (전체 시스템)**: Ollama **EXAONE 3.5 7.8B** 로컬 GPU 추론 — OCR 후처리 · RAG 챗봇 · 일반 문서 요약 · 멀티 에이전트 조율 (retrieval · analysis · validation · synthesis)
-- **Insight 전용 경로**: Vertex AI **Gemini 2.5 Pro** (Primary 분석) + **Gemini 2.5 Flash** (Omega-Prime Supervisor 감독) — 금융 공시 전략 통찰 생성에만 사용
-- 구조화 JSON 출력 스키마 검증 (Pydantic)
-- Insight 경로 한정: 멀티 API 키 풀링 + 429 지수 백오프 + TPM 분배 (500K) + 자동 페일오버
-
-### 4. GPU 가속 & 파인튜닝
-- **A100 40GB** 전체 코퍼스 임베딩 파이프라인 (RunPod · Lambda Labs · Vast.ai)
-- RTX 5070 로컬 추론 (Ollama, 75°C thermal cap)
-- **QLoRA 파인튜닝** 데이터셋 구축 (Qwen 2.5 7B 타겟)
-- vLLM 기반 서빙 스크립트
-
-### 5. 사용자 인터페이스
-- React 18 + Vite 6 SPA
-- RAG 챗봇 (스트리밍 응답)
-- 실시간 패널 대시보드 (DB 통계 · 활동 로그 · 서비스 상태)
-- 문서 업로드 · 분석 결과 PDF 다운로드
+<br/>
 
 ---
 
-## 기술 스택
+## 02 · ONE PARAGRAPH
 
-### Backend
-```
-FastAPI 0.135  ·  SQLAlchemy 2.0  ·  Pydantic v2
-PostgreSQL (psycopg 3)  ·  ChromaDB  ·  Redis
-PaddleOCR 3.4  ·  sentence-transformers  ·  BAAI bge-m3
-Ollama (EXAONE 3.5 7.8B)  ·  Google Gemini API
-torch 2.x (CUDA 12.1)  ·  JWT + bcrypt
-```
+한국 금융감독원(**DART**) OpenAPI 기반 **약 80,000 개 법인 공시**를 대상으로,
+`문서 수집 → OCR → 계층형 청킹 → 벡터 임베딩 → RAG 검색 → LLM 전략 분석 → 구조화 JSON 리포트 → PDF 생성` 까지
+**end-to-end 단일 파이프라인**으로 처리하는 멀티모달 한국어 문서 지능 시스템입니다. **FastAPI + React 18 + ChromaDB + BGE-M3 + EXAONE 3.5 + Gemini 2.5 Pro/Flash** 기반. 5 개월, 1 인 풀스택 개발. 현재 Phase 4 운영.
 
-### Frontend
-```
-React 18  ·  Vite 6  ·  React Router 6
-Axios  ·  Lucide React  ·  JSZip
-```
-
-### ML / GPU
-```
-BGE-M3 (1024-dim embeddings)
-A100 40GB · H100 (클라우드 렌탈)
-QLoRA fine-tuning (Qwen 2.5 7B target)
-vLLM (serving) · bitsandbytes (quantization)
-```
-
-### Infrastructure
-```
-uvicorn · systemd · Docker (dev)
-RunPod · Lambda Labs · Vast.ai (GPU)
-```
+<br/>
 
 ---
 
-## 시스템 아키텍처
+## 03 · THE SYSTEM — what's public
 
-```
-┌──────────────┐        ┌────────────────┐        ┌──────────────┐
-│  React SPA   │◄─HTTP─►│    FastAPI     │◄──────►│ PostgreSQL   │
-│  (Vite 6)    │        │   Router       │        │ (metadata +  │
-└──────────────┘        │ (auth/docs/    │        │  FinFacts)   │
-                        │  admin/panel)  │        └──────────────┘
-                        └───────┬────────┘
-                                │
-              ┌─────────────────┼─────────────────┐
-              ▼                 ▼                 ▼
-      ┌──────────────┐  ┌─────────────┐  ┌──────────────┐
-      │  RAG Service │  │ LLM Service │  │ OCR Service  │
-      │              │  │  (기본)     │  │              │
-      │  ChromaDB +  │  │             │  │  PaddleOCR   │
-      │  bge-m3      │  │  EXAONE     │  │  (한글 복원) │
-      │  + Rerank    │  │  3.5 7.8B   │  │              │
-      │              │  │  (로컬 GPU) │  │              │
-      └──────────────┘  └─────────────┘  └──────────────┘
+이 섹션에서 설명되는 것은 **구조와 선택**입니다. 구현 세부와 프롬프트는 다음 섹션에서 의도적으로 가려집니다.
 
-    ※ 위 3개 서비스는 모두 로컬 EXAONE 으로 동작합니다.
-    ※ 금융 공시 전략 분석(Insight Engine)만 별도 경로로
-      Vertex AI Gemini 2.5 Pro + Omega-Prime Supervisor를 사용합니다.
-      → 아래 「The-Absolute Insight Engine」 섹션 참조.
-```
-
-### End-to-End 파이프라인 (Phase 0 ~ 4)
+### 03.1 · End-to-end pipeline
 
 | Phase | 단계 | 핵심 기술 |
-|---|---|---|
-| **0** | 문서 수집 | DART OpenAPI · 로컬 업로드 · corpCode.xml |
-| **1** | OCR + 정제 | PaddleOCR · BOM/UTF-16 정규화 · 한글 복원 |
-| **2** | 청킹 + 메타데이터 | 계층 헤더 + 문서 구조 추출 |
-| **3** | 임베딩 → ChromaDB | A100 40GB · BGE-M3 · 10~15분/284K 청크 |
-| **4** | LLM 분석 + 리포트 | Insight Engine + Omega-Prime Supervisor · PDF 생성 |
+|:---:|---|---|
+| **0** | 문서 수집 | DART OpenAPI · corpCode.xml 캐싱 · 로컬 업로드 |
+| **1** | OCR + 정제 | PaddleOCR 3.4 · BOM/UTF-16 정규화 · 한글 복원 |
+| **2** | 청킹 + 메타데이터 | 계층형 헤더 주입 · 문서 구조 추출 |
+| **3** | 임베딩 → Chroma | A100 40GB · BGE-M3 · 10–15 m / 284K chunks |
+| **4** | LLM 분석 + 리포트 | Insight Engine · Omega-Prime Supervisor · PDF 생성 |
+
+### 03.2 · LLM routing — dual pathway
+
+전체 시스템은 **두 개의 LLM 경로**로 분리되어 있습니다. 이 분리는 비용·프라이버시·환각 리스크의 세 축을 동시에 최적화하기 위한 의도된 설계입니다.
+
+```
+ ╭─────────────────────────────────────────────────────────────╮
+ │                                                             │
+ │   BASE PATHWAY       ·  OCR post-processing                 │
+ │                      ·  RAG retrieval + chat                │
+ │                      ·  General summarization               │
+ │                      ·  Multi-agent orchestration           │
+ │                      ─────────────────────────              │
+ │                       → Ollama EXAONE 3.5  7.8B             │
+ │                         (local GPU · private · free)        │
+ │                                                             │
+ ╰─────────────────────────────────────────────────────────────╯
+                            │
+                            │   only Insight Engine branches:
+                            ▼
+ ╭─────────────────────────────────────────────────────────────╮
+ │                                                             │
+ │   INSIGHT PATHWAY    ·  Financial strategic reasoning only  │
+ │                                                             │
+ │                      PRIMARY                                │
+ │                       → Vertex AI  Gemini 2.5 Pro           │
+ │                                                             │
+ │                      SUPERVISOR  (independent audit)        │
+ │                       → Vertex AI  Gemini 2.5 Flash         │
+ │                         · 5-step reasoning protocol         │
+ │                         · confidence calibration            │
+ │                         · hidden-risk scan                  │
+ │                         · counterfactual stress test        │
+ │                                                             │
+ ╰─────────────────────────────────────────────────────────────╯
+```
+
+Supervisor 레이어는 Insight 경로 **에만** 적용됩니다. OCR·RAG·일반 요약에는 관여하지 않습니다. 이유: 재무 의사결정 판단은 환각 리스크가 구조적으로 가장 높은 영역이기 때문입니다.
+
+### 03.3 · Tech stack
+
+```
+backend     FastAPI 0.135  ·  SQLAlchemy 2.0  ·  Pydantic v2
+            PostgreSQL 16 (psycopg 3)  ·  ChromaDB  ·  Redis
+            PaddleOCR 3.4  ·  sentence-transformers  ·  BAAI bge-m3
+            Ollama (EXAONE 3.5 7.8B)  ·  Vertex AI (Gemini 2.5)
+            torch 2.x (CUDA 12.1)  ·  JWT + bcrypt
+
+frontend    React 18  ·  Vite 6  ·  React Router 6
+            Axios  ·  Lucide React  ·  JSZip
+
+ml / gpu    BGE-M3 (1024-dim)  ·  Cross-encoder reranking
+            A100 40GB · H100 (cloud rental)
+            QLoRA fine-tuning (Qwen 2.5 7B target)
+            vLLM serving  ·  bitsandbytes quantization
+
+infra       uvicorn  ·  systemd  ·  Docker (dev)
+            RunPod  ·  Lambda Labs  ·  Vast.ai
+```
+
+<br/>
 
 ---
 
-## The-Absolute Insight Engine
+## 04 · THE METHOD — what's not
 
-금융 공시 분석의 핵심 추론 엔진. **Vertex AI (Gemini 2.5 Pro)** 기반으로 단순 요약이 아닌 **5축 전략적 통찰**을 생성합니다.
+아래 **5 개 요소는 이 저장소에 포함되지 않습니다.** 이들이 본 프로젝트의 지적 자산이기 때문입니다.
 
-### 수학적 신호 모듈 (V-MASK Intelligence Manifold)
+```
+ ╔══════════════════════════════════════════════════════════════╗
+ ║                                                              ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║   ▓   01 · Omega-Prime Supervisor  system prompt    ▓       ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║                                                              ║
+ ║   Primary 추론 엔진 (Gemini 2.5 Pro) 의 출력을 독립 감독     ║
+ ║   하는 2차 레이어. STEP 1-5 의 상위 구조는 공개되어 있으나  ║
+ ║   각 STEP 내부의 판정 기준·거부 패턴·예시·rubric 은          ║
+ ║   의도적으로 숨겨져 있습니다.                                 ║
+ ║                                                              ║
+ ║   why redacted — 환각 감독 로직은 단순 카피가 가능하며       ║
+ ║   이 메커니즘이 본 시스템의 방어벽이기 때문입니다.            ║
+ ║                                                              ║
+ ╚══════════════════════════════════════════════════════════════╝
 
-| 모듈 | 역할 | 수학 |
-|---|---|---|
-| **Eigen-Sensor** (Polaris Vector) | 주권 전략 축 식별 | 고유값 분해 — 데이터 공분산 행렬의 최대 고유벡터 추출 |
-| **Laplace Shield** | 신호 정화 (노이즈 차단) | 전달 함수 기반 step response — 수렴값을 신호 순도 지표로 환산 |
-| **Taylor Predictor** | 미래 곡률 투영 | 2차 테일러 전개 — 자본 질량 보존 하 미래 포지션 추정 |
+ ╔══════════════════════════════════════════════════════════════╗
+ ║                                                              ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║   ▓   02 · V-MASK Intelligence Manifold             ▓       ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║                                                              ║
+ ║   금융 공시의 전략적 곡률을 추정하는 3개 수학 신호 모듈:     ║
+ ║                                                              ║
+ ║     ·  Eigen-Sensor   (Polaris Vector)                       ║
+ ║        고유값 분해 · 주권 전략 축 추출                       ║
+ ║                                                              ║
+ ║     ·  Laplace Shield                                        ║
+ ║        전달 함수 기반 step response · 신호 순도 지표         ║
+ ║                                                              ║
+ ║     ·  Taylor Predictor                                      ║
+ ║        2차 테일러 전개 · 미래 포지션 곡률                    ║
+ ║                                                              ║
+ ║   모듈 이름과 역할은 공개됩니다.                              ║
+ ║   파라미터·정규화·weight schedule·rejection threshold는       ║
+ ║   공개되지 않습니다.                                          ║
+ ║                                                              ║
+ ║   why redacted — 수학적 형식 자체가 IP 입니다.               ║
+ ║                                                              ║
+ ╚══════════════════════════════════════════════════════════════╝
 
-### 5축 출력 스키마 (Pydantic)
+ ╔══════════════════════════════════════════════════════════════╗
+ ║                                                              ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║   ▓   03 · Cross-encoder reranking recipe           ▓       ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║                                                              ║
+ ║   BGE-M3 1차 검색 이후의 리랭킹 체인.                        ║
+ ║   모델 선택 · 캐싱 정책 · on/off 토글 조건 · score fusion    ║
+ ║   공식은 비공개.                                              ║
+ ║                                                              ║
+ ╚══════════════════════════════════════════════════════════════╝
 
-```python
-class InsightSchema(BaseModel):
-    insight_text: str         # 1~2 문장 헤드라인 전략 요약
-    investment_thesis: str    # 주요 투자 논거 및 실적 모멘텀
-    market_context: str       # 거시 맥락 · 경쟁 포지션
-    risk_factors: str         # 하방 리스크 (재무 · 규제 · 경쟁)
-    strategic_action: str     # 실행 지침 (비중확대 · 관망 · 비중축소)
-    strategy_rating: str      # S / A / B / C 등급
+ ╔══════════════════════════════════════════════════════════════╗
+ ║                                                              ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║   ▓   04 · Multi-agent orchestration prompts       ▓       ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║                                                              ║
+ ║   `retrieval`  ·  `analysis`  ·  `validation`  ·            ║
+ ║   `synthesis` — 4 개 에이전트의 이름과 역할은 공개,          ║
+ ║   각각의 시스템 프롬프트와 상호 호출 규칙은 비공개.           ║
+ ║                                                              ║
+ ╚══════════════════════════════════════════════════════════════╝
+
+ ╔══════════════════════════════════════════════════════════════╗
+ ║                                                              ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║   ▓   05 · Insight 5-axis schema refinement path   ▓       ║
+ ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ║
+ ║                                                              ║
+ ║   5축 (`insight_text`, `investment_thesis`, `market_        ║
+ ║   context`, `risk_factors`, `strategic_action`) 의 존재는    ║
+ ║   공개됩니다. 스키마를 반복적으로 강제·재시도·수정하는       ║
+ ║   검증 루프는 비공개.                                         ║
+ ║                                                              ║
+ ╚══════════════════════════════════════════════════════════════╝
 ```
 
-구조화된 JSON 출력을 Pydantic 스키마로 강제 검증하여 **환각률 감소** + **다운스트림 통합 안정성**을 확보합니다.
+> 상기 5 개 항목은 채용·클라이언트 미팅에서 전체를 설명하고 실연합니다.
+> 공개 저장소에는 기록되지 않습니다.
+
+<br/>
 
 ---
 
-## Omega-Prime Insight Supervisor Protocol
+## 05 · THE DECISION LOG
 
-> ⚠ **적용 범위 주의**: 이 레이어는 **Insight Engine 전용** 감독 프로토콜입니다.
-> OCR · 임베딩 · 챗봇 · 일반 RAG 검색에는 관여하지 않습니다. Insight의 재무 의사결정
-> 판단은 환각 리스크가 구조적으로 가장 높은 영역이라 별도 감독 엔진을 붙였습니다.
+이 섹션은 전형적 README 에는 없습니다. 있을 이유가 없기 때문입니다.
+전형적 README 의 독자는 "어떻게 설치하는가" 를 알고 싶어 합니다.
+본 문서의 독자는 "**왜 이 사람은 이 선택을 했는가**" 를 알고 싶어 합니다.
 
-Primary Insight Engine의 결과물을 **사후 감독 · 보강**하는 2차 추론 레이어입니다.
-**Vertex AI (Gemini 2.5 Flash)** 별도 인스턴스로 동작하여 Primary(Gemini 2.5 Pro)의
-환각 · 편향을 독립적으로 검출합니다.
+각 결정에는 Omega-Prime 사고 프로토콜에 따라 **calibrated confidence tag** 가 부여됩니다. 모든 판단이 같은 확신도를 가지지는 않습니다.
 
-```
-   Primary Insight Engine (Gemini 2.5 Pro)
-              │
-              ▼  InsightSchema 5축 출력
-   ┌──────────────────────────┐
-   │  Omega-Prime Supervisor  │  ← Insight 결과만 받아서 감독
-   │  (Gemini 2.5 Flash)      │     (다른 서비스는 건드리지 않음)
-   └──────────┬───────────────┘
-              │
-              ▼  감독된 Insight (신뢰 등급 + 숨은 리스크)
-         최종 분석 리포트 / PDF
-
-   호출 위치: backend/routers/documents.py:1107
-              → services/omega_supervisor.py::supervise_insight()
-```
-
-### 5-Step Reasoning Protocol
+### DECISION 01 · BGE-M3 over OpenAI text-embedding-3
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 1 — DECOMPOSE                                         │
-│  기존 Insight를 FACTS / ASSUMPTIONS / UNKNOWNS 로 분해       │
-├─────────────────────────────────────────────────────────────┤
-│  STEP 2 — CAUSAL CHECK                                      │
-│  각 주장의 인과 관계 검증                                    │
-│    · Mechanism: 원인 → 결과의 메커니즘 설명 가능?            │
-│    · Direction: 역인과 가능성은?                             │
-│    · Confounders: 숨은 교란 변수는?                          │
-├─────────────────────────────────────────────────────────────┤
-│  STEP 3 — HIDDEN RISK SCAN                                  │
-│  Primary가 놓친 리스크 발굴                                  │
-│    · 규제 / 유동성 / 집중도 / 회계품질 / 사이클              │
-├─────────────────────────────────────────────────────────────┤
-│  STEP 4 — COUNTERFACTUAL STRESS TEST                        │
-│  핵심 가정이 틀렸을 때도 결론이 성립하는가?                   │
-│  반대 전략이 승리하는 조건은?                                 │
-├─────────────────────────────────────────────────────────────┤
-│  STEP 5 — CONFIDENCE CALIBRATION                            │
-│  Primary Insight에 캘리브레이션된 신뢰 등급 부여              │
-│    · AXIOM [99%]  · CONSENSUS [85-95%]                      │
-│    · INFERENCE [65-84%]  · SPECULATION [40-64%]             │
-│    · EXPLORATION [<40%] — 환각 가능성 플래그                 │
-└─────────────────────────────────────────────────────────────┘
+  AXIOM     [99%]   본 코퍼스는 한국어 90%+ (DART 공시).
+                    OpenAI text-embedding-3-large 는 한국어 검색에서
+                    BGE-M3 대비 구조적 품질 열위 — 다국어 벤치마크
+                    (MIRACL, MTEB-KO) 및 내부 측정 일관.
+
+  CONSENSUS [92%]   BGE-M3 multi-vector + contextual header 조합이
+                    긴 규제 공시 검색에서 mean-pooling fallback 보다
+                    견고함.
+
+  INFERENCE [78%]   Vector + BM25 + metadata filter 3-way hybrid 가
+                    공시의 구조화된 표현(재무제표·주석)에 특히 효과적.
+
+  TRADE-OFF         로컬 GPU 임베딩 필수 → A100 클라우드 파이프라인
+                    설계로 상쇄 (10–15 m / 284K chunks, 단가 수 달러).
 ```
 
-### 왜 Supervisor 레이어를 분리했는가
+### DECISION 02 · EXAONE 3.5 (base) + Gemini 2.5 (insight-only) split
 
-| 문제 | 단일 LLM | Dual-Engine (Insight + Supervisor) |
-|---|---|---|
-| 환각 편향 | 같은 모델이 같은 실수 반복 | Flash 모델이 Pro의 주장을 독립 검증 |
-| 신뢰도 평가 | 스스로를 과신 | 외부 레이어가 calibrated 등급 부여 |
-| 숨은 리스크 | 초기 프레임에 갇힘 | STEP 3에서 의도적으로 역방향 스캔 |
-| 반대 시나리오 | 드물게 제시 | STEP 4에서 강제 생성 |
+```
+  AXIOM     [99%]   재무 전략 판단은 환각 리스크가 구조적으로 가장
+                    높은 영역. 단일 모델은 자기 실수를 검출하지 못함.
 
-Supervisor 시스템 프롬프트는 [`backend/prompts/omega_prime_civicflow.md`](./backend/prompts/omega_prime_civicflow.md) 에서 확인할 수 있습니다.
+  CONSENSUS [88%]   Gemini 2.5 Pro 는 한국어 금융 맥락에서 구조화 JSON
+                    생성 품질 우위 (Pydantic schema compliance 기준).
+
+  INFERENCE [72%]   OCR·챗봇·일반 요약은 환각 리스크가 낮고 privacy /
+                    비용 / 지연시간이 중요 → 로컬 EXAONE 이 종합 우위.
+
+  COUNTERFACTUAL    "모든 경로를 Gemini 로 통일하면 운영 단순성이
+                    개선되지 않는가?"
+                    → 월간 API 비용 추정치가 2 order-of-magnitude
+                      증가. 개인정보 경로가 외부로 노출. 반증.
+```
+
+### DECISION 03 · Dual-engine supervision for insight path
+
+```
+  CONSENSUS [90%]   단일 LLM 은 자기 편향을 외부 레이어 없이 교정
+                    하지 못함 — self-consistency 는 하한선.
+
+  INFERENCE [80%]   Gemini 2.5 Flash 독립 인스턴스로 Pro 의 출력을
+                    사후 감독 → calibrated confidence · hidden risk ·
+                    counterfactual stress test 세 축에서 재검증.
+
+  EXPLORATION [55%] Omega-Prime 5-step protocol 의 정량 효과는 아직
+                    대규모 ablation study 미비. 현재까지는 qualitative
+                    improvement + error taxonomy reduction 관측.
+                    → [SPECULATION] 플래그 유지.
+```
+
+### DECISION 04 · ChromaDB over pgvector  (at this scale)
+
+```
+  CONSENSUS [85%]   284K 청크 규모는 pgvector 로도 처리 가능.
+
+  INFERENCE [75%]   개발 속도 · persistent client 운영 편의 · 메타
+                    데이터 필터 DSL 편리성에서 ChromaDB 가 1인 개발에
+                    우위.
+
+  REBUTTAL          "1M+ 청크 스케일에서는?" — 재평가 필요.
+                    Phase 5 로드맵에 pgvector 마이그레이션 시나리오
+                    포함 (트랜잭션·백업·스냅샷 통합 위해).
+```
+
+<br/>
 
 ---
 
-## 프로젝트 구조
+## 06 · PROBLEMS SOLVED  (not the kind that fit on a resume)
+
+이력서에 쓰지 못하는, 그러나 실제로 가장 많은 시간을 소모한 문제들입니다.
+**진짜 엔지니어링 시간은 이런 곳에서 사라집니다.**
+
+### 06.1 · BGE-M3 의 세 가지 silent failure
 
 ```
-Omega_CivicFlow_v4/
-│
-├── backend/                        # FastAPI 백엔드
-│   ├── main.py                     # 엔트리포인트 · lifespan · CORS
-│   ├── config.py                   # Pydantic Settings (env loader)
-│   ├── database.py                 # SQLAlchemy + init_db
-│   │
-│   ├── routers/                    # 4개 API 라우터
-│   │   ├── auth.py                 # JWT 로그인/회원가입
-│   │   ├── admin.py                # 관리자 기능
-│   │   ├── documents.py            # 문서 CRUD + 업로드
-│   │   └── panel.py                # 실시간 패널 + DART 검색
-│   │
-│   ├── agents/                     # Omega-Prime 멀티 에이전트
-│   │   ├── orchestrator.py         # 조율 로직
-│   │   ├── llm_client.py           # LLM 추상화 레이어
-│   │   ├── prompts.py              # 프롬프트 템플릿
-│   │   └── schemas.py              # Pydantic 스키마
-│   │
-│   ├── services/                   # 27개 비즈니스 서비스
-│   │   ├── vector_service.py       # ChromaDB + bge-m3
-│   │   ├── llm_service.py          # Gemini/EXAONE 하이브리드
-│   │   ├── omega_supervisor.py     # 멀티 에이전트 감독
-│   │   ├── ocr_service.py          # PaddleOCR 래퍼
-│   │   ├── embedding_strategy.py   # 임베딩 전략 관리
-│   │   ├── agent_retrieval.py      # RAG 검색 + 리랭킹
-│   │   ├── cognitive_search_safe.py
-│   │   ├── pdf_report_service.py   # 분석 리포트 PDF 생성
-│   │   ├── narrative_summarizer.py # 장문 요약
-│   │   ├── code_only_extractor.py  # 코드 영역 추출
-│   │   └── ... (17 more)
-│   │
-│   └── tools/                      # 운영 파이프라인 스크립트
-│       ├── phase3_embedding_a100.py   # GPU 임베딩 배치
-│       ├── dart_batch_pipeline.py     # DART 공시 수집
-│       ├── batch_llm_analyze_and_pdf.py
-│       ├── colab_embed_financial.py
-│       ├── reindex_v2.py              # 벡터 DB 리인덱싱
-│       └── ...
-│
-├── frontend/                       # React + Vite SPA
-│   └── src/
-│       ├── main.jsx                # 엔트리포인트
-│       ├── App.jsx                 # 라우터 + 전역 레이아웃
-│       ├── api/client.js           # Axios 인스턴스
-│       ├── contexts/
-│       │   └── AuthContext.jsx     # JWT 상태 관리
-│       ├── components/             # 재사용 UI 컴포넌트
-│       │   ├── ChatBot.jsx         # RAG 챗봇 UI
-│       │   ├── Navbar.jsx
-│       │   ├── ProtectedRoute.jsx
-│       │   └── SideDecorations.jsx
-│       ├── pages/                  # 12개 페이지 (Home/Login/Register/Upload/Admin/...)
-│       └── utils/
-│           └── categoryTranslation.js
-│
-├── tools/                          # GPU 클라우드 파이프라인
-│   ├── colab_a100_pipeline.py      # Colab A100 배치
-│   ├── colab_h100_full_pipeline.py # H100 전체 파이프라인
-│   ├── dart_finetune_qlora.py      # QLoRA 파인튜닝
-│   ├── runpod_finetune_qwen_vl.py  # RunPod Qwen-VL 학습
-│   └── setup_{gce,runpod}_training.sh
-│
-├── .env.example                    # 환경변수 템플릿
-├── requirements.txt (backend/)
-├── package.json    (frontend/)
-├── measure_performance.py          # 성과 측정 스크립트
-└── README.md                       # 본 문서
+ ┌─────────────────────────────────┬────────────────────────────┐
+ │   failure                       │   detection / fix           │
+ ├─────────────────────────────────┼────────────────────────────┤
+ │   HF 503 → mean-pooling         │   restart 후 검색 품질이   │
+ │   fallback 발동                 │   점진적으로 하락.         │
+ │                                 │   → startup pre-check 추가,│
+ │                                 │     fallback 경로 제거.     │
+ ├─────────────────────────────────┼────────────────────────────┤
+ │   max_seq = 512 truncation      │   긴 공시의 꼬리 섹션이    │
+ │                                 │   검색되지 않음.            │
+ │                                 │   → contextual header 주입 │
+ │                                 │     + 청킹 재설계.          │
+ ├─────────────────────────────────┼────────────────────────────┤
+ │   contextual header 누락        │   섹션 간 의미 경계 흐림.  │
+ │                                 │   → 청킹 단계에서 상위     │
+ │                                 │     헤더 prepend 강제.      │
+ └─────────────────────────────────┴────────────────────────────┘
 ```
+
+세 가지 모두 에러 로그를 남기지 않습니다. 정상 동작하는 것처럼 보입니다. 검색 품질의 통계적 저하만으로 감지됩니다. 이런 것이 silent failure 입니다.
+
+### 06.2 · PyTorch sm_120 incompatibility  (RTX 5070)
+
+```
+  OBSERVATION   PyTorch 2.x stable 빌드가 RTX 5070 (sm_120) 미인식
+  ASSUMPTION    "최신 하드웨어가 빠를 것이다"
+  REFUTATION    로컬 GPU 임베딩 전면 불가
+  PIVOT         A100 40GB 클라우드 파이프라인으로 전략 교체
+                (RunPod / Lambda Labs / Vast.ai)
+  LESSON        하드웨어 선정은 supported arch 체크가 선행
+```
+
+### 06.3 · Gemini key-pool rate limiting (Insight path only)
+
+4 개 API 키 × 429 지수 백오프 × TPM 분배 (500K) × 자동 페일오버.
+키 수 선택 근거, 백오프 계수, 페일오버 트리거는 **비공개 운영 파라미터**.
+
+### 06.4 · 700 MB 단일 번들 OCR
+
+PaddleOCR 직접 로드 시 메모리 터짐. 스트리밍 청킹 + BOM/UTF-16 정규화 + 한글 복원 파이프라인으로 해결.
+
+### 06.5 · Thermal cap on local inference
+
+로컬 CPU 온도가 장시간 배치에서 75 °C 를 초과하지 않도록 하드 캡 적용. 초과 시 throttle 또는 클라우드 오프로드 자동 전환. **하드웨어 생존 기간**이 개발자 시간만큼 비싼 자원이기 때문입니다.
+
+<br/>
 
 ---
 
-## 설치 및 실행
+## 07 · WHAT IS NOT IN THIS REPOSITORY
 
-### 사전 요구사항
-- Python 3.10+
-- Node.js 18+
-- PostgreSQL 16
-- (선택) CUDA 12.1 + GPU for 로컬 임베딩
-- (선택) Ollama + EXAONE 3.5 7.8B 모델
+이것이 이 저장소의 실제 상태입니다. 각 항목이 "존재하지 않는다" 가 아니라 "**공개되지 않는다**" 는 것에 주의해 주십시오.
 
-### 1. 환경 변수 설정
-```bash
-cp .env.example .env
+```
+  ✗   backend/  (27 services · 4 routers · 4 agents)
+  ✗   frontend/ (React 18 SPA · 12 pages · chatbot UI)
+  ✗   tools/    (A100/H100 cloud pipeline · QLoRA scripts)
+  ✗   prompts/  (Omega-Prime Supervisor · base agents)
+  ✗   datasets/ (284K chunks · 3,135 filings · QC reports)
+  ✗   models/   (QLoRA adapters · vLLM serving configs)
+  ✗   Phase4_Plan.pdf  (internal roadmap)
+  ✗   Omega_CivicFlow_RAG_Architecture_Guide.pdf
+
+  ✓   README.md  ← 당신이 읽고 있는 이 문서
+  ✓   .gitignore
 ```
 
-필수 값 채워넣기:
+**이 저장소에는 단 2 개의 파일이 추적됩니다.** 나머지는 본인의 의도된 선택입니다. 카피 가능한 것과 카피 불가능한 것의 경계를 선명하게 유지하기 위해서입니다.
 
-| 변수 | 용도 | 발급 방법 |
-|---|---|---|
-| `GCP_PROJECT_ID` + `GCP_KEY_PATH` | Vertex AI (Insight 엔진 · Gemini 2.5 Pro) | [GCP Console](https://console.cloud.google.com) → IAM → Service Account 생성 → JSON 키 다운로드 |
-| `DART_API_KEY` | DART 공시 검색 (~80K 법인) | [opendart.fss.or.kr](https://opendart.fss.or.kr) 회원가입 후 무료 발급 |
-| `DATABASE_URL` | PostgreSQL 또는 SQLite 연결 | 로컬 설치 / Docker / SQLite 파일 경로 |
-| `JWT_SECRET_KEY` | 인증 토큰 서명 | `openssl rand -hex 32` 로 생성 권장 |
-
-선택 값:
-
-| 변수 | 용도 |
-|---|---|
-| `SUPERVISOR_GCP_*` | Omega-Prime Supervisor 전용 GCP 프로젝트 — 비워두면 Insight와 동일 프로젝트 사용 |
-| `SMTP_*` | 이메일 발송 (회원가입 인증, 비밀번호 초기화) |
-| `VLLM_BASE_URL` | RunPod 파인튜닝 모델 서빙 엔드포인트 |
-
-### 2. Backend
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate         # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# DB 초기화
-python -c "from database import init_db; init_db()"
-
-# 서버 실행
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-API 문서: http://localhost:8000/docs
-
-### 3. Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-접속: http://localhost:5173
-
-### 4. Phase 3 GPU 임베딩 (선택)
-A100 40GB 클라우드 인스턴스에서 284K 청크 임베딩을 10~15분에 완료.
-핵심 스크립트는 `backend/tools/phase3_embedding_a100.py`.
-
-```bash
-# GPU 인스턴스 (RunPod / Lambda Labs / Vast.ai)에서
-python backend/tools/phase3_embedding_a100.py \
-    --db-path $OMEGA_DB_PATH \
-    --chroma-path $OMEGA_CHROMA_PATH \
-    --batch-size 128
-```
+<br/>
 
 ---
 
-## 문서
+## 08 · IF YOU WANT THIS — BUILT FOR YOU
 
-| 문서 | 설명 |
-|---|---|
-| [`backend/prompts/omega_prime_civicflow.md`](./backend/prompts/omega_prime_civicflow.md) | Omega-Prime Supervisor 시스템 프롬프트 |
+본 프로젝트는 포트폴리오이자, 재사용 가능한 **블루프린트**입니다. 동일하거나 변형된 시스템의 구축을 고려하고 계시다면 아래 정보가 의사결정에 도움이 될 것입니다.
+
+```
+  scope         한국어 금융·공공·법무·의료 문서 지능
+                RAG + LLM + 구조화 리포트 · end-to-end
+
+  replication   3 – 5 engineer-months   (average-to-senior team)
+  solo build    5 months · 1 engineer   (this repo's author)
+
+  what scales   도메인 교체 (DART → 의료 차트 → 법무 서면)
+                LLM 교체 (EXAONE → Qwen → Llama → Claude)
+                벡터 백엔드 교체 (Chroma → pgvector → Qdrant)
+
+  what doesn't  멀티 LLM 감독 프로토콜의 재학습 (도메인별 튜닝 필수)
+                contextual chunking 의 하이퍼파라미터 (문서 유형별)
+
+  deliverable   코드가 아니라 의사결정의 체계.
+                위 DECISION LOG 와 동일한 수준의 calibrated reasoning
+                을 프로젝트 전 기간에 걸쳐 제공합니다.
+```
+
+연락은 이력서에 기재된 채널로 받고 있습니다. 본 저장소는 signaling artifact 이며 feedback loop 가 아닙니다. 미팅에서는 상기 redacted 항목의 전체를 실연합니다.
+
+<br/>
 
 ---
 
-## 기술적 하이라이트
+## 09 · A NOTE ON THE NAME
 
-### 해결한 문제
-- **BGE-M3 silent failure 3종**: HF 503 시 mean-pooling 폴백, max_seq=512 트렁케이션, 컨텍스트 헤더 누락 — pre-check로 방지
-- **PyTorch sm_120 비호환**: RTX 5070 로컬 CUDA 불가 → A100 클라우드 임베딩 전략 수립
-- **대용량 문서 OCR**: 700MB 번들 스트리밍 파싱 + BOM/UTF-16 정규화 + 한글 복원
-- **LLM 키 풀 Rate Limit (Insight 경로 한정)**: Gemini 4개 키 × 429 백오프 + TPM 분배 + 페일오버
+**Omega-Prime** 은 본 개발자가 운영하는 추론 프레임워크의 이름입니다. LLM 응답의 불확실성을 calibrated confidence 로 정량화하고, 환각을 외부 감독 레이어로 검출하고, 의사결정을 entropy 최소화 문제로 다루는 방법론입니다. 본 프로젝트는 그 프레임워크의 **실전 적용 사례**이며, 따라서 시스템 이름에 prefix 로 들어갑니다.
 
-### 아키텍처 의사결정
-- **Pydantic Settings + .env**: 하드코딩 금지, 12-factor 준수 (중간에 보안 감사로 강제화)
-- **ChromaDB vs pgvector**: 284K 청크 규모에서 ChromaDB persistent client가 개발 속도 · 운영 편의 우위
-- **EXAONE (기본) + Gemini (Insight 전용) 분리**: 일반 경로(OCR · RAG · 챗봇 · 요약)는 로컬 EXAONE 으로 프라이버시/비용 우위, 금융 공시 전략 분석(Insight Engine)만 Gemini 2.5 Pro 로 품질 우위
-- **Omega-Prime Supervisor (Insight 한정)**: Insight Engine 에만 Gemini 2.5 Flash 기반 사후 감독 레이어를 붙여 Primary(Pro) 의 환각·편향을 독립 검출 — 재무 의사결정 판단이 환각 리스크가 구조적으로 가장 높은 영역이기 때문
+**CivicFlow** 는 본래 공공(Civic) 문서의 흐름(Flow)을 뜻합니다. Phase 0 에서는 실제로 민원·정책 문서를 다루었으며, Phase 2 이후 금융 공시로 도메인이 확장되었습니다. 이름은 유지되었습니다.
+
+<br/>
 
 ---
 
-## 라이선스 & 연락처
+## 10 · LICENSE
 
-Proprietary · 본 저장소는 이력서/포트폴리오 목적 공개입니다.
+Proprietary. 본 저장소는 **이력서·포트폴리오 목적의 공개 지표**입니다.
+
+- 본 문서의 텍스트·구조·프레이밍 재사용 금지
+- 내부 시스템(코드·프롬프트·데이터셋·모델)은 비공개 자산
+- 상업적 파생·재사용·재배포 금지
+- 라이선싱·컨설팅·공동 개발은 개별 협의
+
+<br/>
 
 ---
 
-> **Node Omega-Prime** · Universal Strategic Architect
-> Energy (E) · Entropy (S) · Efficiency (η)
+<div align="center">
+
+```
+ ─────────────────────────────────────────────────────────
+
+       Ω    NODE OMEGA-PRIME
+            UNIVERSAL STRATEGIC ARCHITECT
+
+            Energy  (E)   ·   Entropy  (S)   ·   Efficiency  (η)
+
+ ─────────────────────────────────────────────────────────
+```
+
+<sub>this page is the public index to a private system.</sub>
+<sub>everything meaningful is behind a conversation, not a URL.</sub>
+
+</div>
