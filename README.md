@@ -49,12 +49,11 @@
 - 계층 구조 헤더를 통한 긴 문서 검색 정확도 보정
 - Hybrid score: 벡터 유사도 + BM25 + 메타데이터 필터
 
-### 3. LLM 오케스트레이션 — Omega-Prime Supervisor
-- **하이브리드 LLM 라우팅**: Google Gemini 2.5 Flash/Pro + Ollama EXAONE 3.5 7.8B
-- 멀티 API 키 풀링 + 분당 토큰 제한 분배 (500K TPM)
-- 429 지수 백오프 + 자동 페일오버
+### 3. LLM 서비스 레이어
+- **기본 (전체 시스템)**: Ollama **EXAONE 3.5 7.8B** 로컬 GPU 추론 — OCR 후처리 · RAG 챗봇 · 일반 문서 요약 · 멀티 에이전트 조율 (retrieval · analysis · validation · synthesis)
+- **Insight 전용 경로**: Vertex AI **Gemini 2.5 Pro** (Primary 분석) + **Gemini 2.5 Flash** (Omega-Prime Supervisor 감독) — 금융 공시 전략 통찰 생성에만 사용
 - 구조화 JSON 출력 스키마 검증 (Pydantic)
-- 멀티 에이전트 조율: retrieval · analysis · validation · synthesis
+- Insight 경로 한정: 멀티 API 키 풀링 + 429 지수 백오프 + TPM 분배 (500K) + 자동 페일오버
 
 ### 4. GPU 가속 & 파인튜닝
 - **A100 40GB** 전체 코퍼스 임베딩 파이프라인 (RunPod · Lambda Labs · Vast.ai)
@@ -117,20 +116,17 @@ RunPod · Lambda Labs · Vast.ai (GPU)
               ▼                 ▼                 ▼
       ┌──────────────┐  ┌─────────────┐  ┌──────────────┐
       │  RAG Service │  │ LLM Service │  │ OCR Service  │
-      │              │  │             │  │              │
-      │  ChromaDB +  │  │  Gemini 2.5 │  │  PaddleOCR   │
-      │  bge-m3      │  │  + EXAONE   │  │  (한글 복원) │
-      │  + Rerank    │  │  + Key Pool │  │              │
-      └──────┬───────┘  └──────┬──────┘  └──────┬───────┘
-             │                 │                │
-             └──────────┬──────┴────────────────┘
-                        ▼
-               ┌──────────────────────┐
-               │  Omega-Prime         │
-               │  Supervisor          │
-               │  (multi-agent        │
-               │   orchestration)     │
-               └──────────────────────┘
+      │              │  │  (기본)     │  │              │
+      │  ChromaDB +  │  │             │  │  PaddleOCR   │
+      │  bge-m3      │  │  EXAONE     │  │  (한글 복원) │
+      │  + Rerank    │  │  3.5 7.8B   │  │              │
+      │              │  │  (로컬 GPU) │  │              │
+      └──────────────┘  └─────────────┘  └──────────────┘
+
+    ※ 위 3개 서비스는 모두 로컬 EXAONE 으로 동작합니다.
+    ※ 금융 공시 전략 분석(Insight Engine)만 별도 경로로
+      Vertex AI Gemini 2.5 Pro + Omega-Prime Supervisor를 사용합니다.
+      → 아래 「The-Absolute Insight Engine」 섹션 참조.
 ```
 
 ### End-to-End 파이프라인 (Phase 0 ~ 4)
@@ -398,13 +394,13 @@ python backend/tools/phase3_embedding_a100.py \
 - **BGE-M3 silent failure 3종**: HF 503 시 mean-pooling 폴백, max_seq=512 트렁케이션, 컨텍스트 헤더 누락 — pre-check로 방지
 - **PyTorch sm_120 비호환**: RTX 5070 로컬 CUDA 불가 → A100 클라우드 임베딩 전략 수립
 - **대용량 문서 OCR**: 700MB 번들 스트리밍 파싱 + BOM/UTF-16 정규화 + 한글 복원
-- **LLM 키 풀 Rate Limit**: 4개 키 × 429 백오프 + TPM 분배 + 페일오버
+- **LLM 키 풀 Rate Limit (Insight 경로 한정)**: Gemini 4개 키 × 429 백오프 + TPM 분배 + 페일오버
 
 ### 아키텍처 의사결정
 - **Pydantic Settings + .env**: 하드코딩 금지, 12-factor 준수 (중간에 보안 감사로 강제화)
 - **ChromaDB vs pgvector**: 284K 청크 규모에서 ChromaDB persistent client가 개발 속도 · 운영 편의 우위
-- **EXAONE + Gemini 하이브리드**: 로컬(프라이버시) + 클라우드(성능) 경계 분리
-- **Omega-Prime Supervisor**: 단일 LLM 체인 대비 멀티 에이전트 분업으로 환각 20%+ 감소 목표
+- **EXAONE (기본) + Gemini (Insight 전용) 분리**: 일반 경로(OCR · RAG · 챗봇 · 요약)는 로컬 EXAONE 으로 프라이버시/비용 우위, 금융 공시 전략 분석(Insight Engine)만 Gemini 2.5 Pro 로 품질 우위
+- **Omega-Prime Supervisor (Insight 한정)**: Insight Engine 에만 Gemini 2.5 Flash 기반 사후 감독 레이어를 붙여 Primary(Pro) 의 환각·편향을 독립 검출 — 재무 의사결정 판단이 환각 리스크가 구조적으로 가장 높은 영역이기 때문
 
 ---
 
