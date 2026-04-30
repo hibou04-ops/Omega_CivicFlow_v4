@@ -12,3 +12,4 @@
 # 명시적 허용 (루트 레벨만)
 !README.md
 !.gitignore
+.gstack/
