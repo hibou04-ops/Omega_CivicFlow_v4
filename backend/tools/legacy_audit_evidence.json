@@ -1,0 +1,18 @@
+{
+  "omega_documents": {
+    "count": 114132,
+    "status": "exists"
+  },
+  "omega_document_chunks": {
+    "count": 560897,
+    "status": "exists"
+  },
+  "omega_documents_v2": {
+    "count": 279004,
+    "status": "exists"
+  },
+  "omega_document_chunks_v2": {
+    "count": 0,
+    "status": "exists"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "total": 3135,
+  "avg_summary_len": 172.2213716108453,
+  "avg_evidence_len": 490.02519936204146,
+  "issue_counts": {
+    "negative_debt_ratio": 1,
+    "too_short_60": 202,
+    "too_short_30": 31,
+    "empty": 0,
+    "josa_unprocessed": 0,
+    "dangsa_dup": 0,
+    "fp_negative_event": 0,
+    "type_event_mismatch": 0,
+    "split_with_payment_date": 0,
+    "negative_with_unrelated_date": 0,
+    "revenue_too_large": 0,
+    "extreme_debt_ratio": 0
+  },
+  "evidence_buckets": {
+    "A: 빈 (0자)": 20,
+    "B: 1-200자": 72,
+    "C: 200-500자": 1361,
+    "D: 500-1000자": 1682,
+    "E: 1000+자": 0
+  },
+  "evidence_coverage_pct": 99,
+  "sentence_cuts": {
+    "summary": 5,
+    "overview": 0
+  },
+  "fp_negative_event": [],
+  "too_short_30_samples": [
+    {
+      "doc_id": 846,
+      "company": "동진정공",
+      "len": 26,
+      "preview": "동진정공은 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 962,
+      "company": "스탭스",
+      "len": 25,
+      "preview": "스탭스는 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 975,
+      "company": "신우개발",
+      "len": 26,
+      "preview": "신우개발은 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 1014,
+      "company": "어니컴",
+      "len": 25,
+      "preview": "어니컴은 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 1104,
+      "company": "일광여객자동차",
+      "len": 29,
+      "preview": "일광여객자동차는 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 1124,
+      "company": "제이피스",
+      "len": 26,
+      "preview": "제이피스는 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 1220,
+      "company": "피유테크",
+      "len": 26,
+      "preview": "피유테크는 2025년 감사보고서를 공시했습니다."
+    },
+    {
+      "doc_id": 2198,
+      "company": "HDC현대산업개발",
+      "len": 27,
+      "preview": "HDC현대산업개발이 영업정지를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2199,
+      "company": "HDC현대산업개발",
+      "len": 27,
+      "preview": "HDC현대산업개발이 영업정지를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2341,
+      "company": "SK하이닉스",
+      "len": 23,
+      "preview": "SK하이닉스가 영업양수결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2342,
+      "company": "SK하이닉스",
+      "len": 23,
+      "preview": "SK하이닉스가 영업양수결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2363,
+      "company": "고려아연",
+      "len": 26,
+      "preview": "고려아연이 소송 등의 제기를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2374,
+      "company": "고려아연",
+      "len": 21,
+      "preview": "고려아연이 유상증자결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2375,
+      "company": "고려아연",
+      "len": 21,
+      "preview": "고려아연이 유상증자결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2379,
+      "company": "고려아연",
+      "len": 26,
+      "preview": "고려아연이 소송 등의 제기를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2380,
+      "company": "고려아연",
+      "len": 26,
+      "preview": "고려아연이 소송 등의 제기를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2434,
+      "company": "대우건설",
+      "len": 22,
+      "preview": "대우건설이 영업정지를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2440,
+      "company": "동국제강",
+      "len": 25,
+      "preview": "동국제강이 유형자산 양수 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2506,
+      "company": "삼성물산",
+      "len": 20,
+      "preview": "삼성물산이 감자 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2508,
+      "company": "삼성물산",
+      "len": 20,
+      "preview": "삼성물산이 감자 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2532,
+      "company": "삼양식품",
+      "len": 25,
+      "preview": "삼양식품이 유형자산 양수 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2533,
+      "company": "삼양식품",
+      "len": 23,
+      "preview": "삼양식품이 유형자산양수결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2558,
+      "company": "슈프리마에이치큐",
+      "len": 29,
+      "preview": "슈프리마에이치큐가 자기주식 처분 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2628,
+      "company": "엘아이지",
+      "len": 20,
+      "preview": "엘아이지가 감자 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2647,
+      "company": "오아",
+      "len": 23,
+      "preview": "오아가 유형자산 양수 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2648,
+      "company": "오아",
+      "len": 21,
+      "preview": "오아가 유형자산양수결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2714,
+      "company": "전주원파워",
+      "len": 21,
+      "preview": "전주원파워가 감자 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2731,
+      "company": "카카오",
+      "len": 21,
+      "preview": "카카오가 회사합병 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2930,
+      "company": "현대엘리베이터",
+      "len": 28,
+      "preview": "현대엘리베이터가 유형자산 양도 결정을 공시했습니다."
+    },
+    {
+      "doc_id": 2942,
+      "company": "호텔신라",
+      "len": 22,
+      "preview": "호텔신라가 영업정지를 결정·공시했습니다."
+    },
+    {
+      "doc_id": 2943,
+      "company": "호텔신라",
+      "len": 22,
+      "preview": "호텔신라가 영업정지를 결정·공시했습니다."
+    }
+  ],
+  "overview_cut_samples": [],
+  "summary_cut_samples": [
+    {
+      "doc_id": 2336,
+      "company": "SK텔레콤",
+      "tail": "레콤(주) : 에스케이브로드밴드(주) = 1 : 0.)"
+    },
+    {
+      "doc_id": 2698,
+      "company": "이마트",
+      "tail": "전 비율 (주)이마트 : (주)신세계푸드 = 1:0.)"
+    },
+    {
+      "doc_id": 2897,
+      "company": "한화에어로스페이스",
+      "tail": "에 부합하는 독립경영 및 책임경영 체제를 확립하고 경영"
+    },
+    {
+      "doc_id": 2898,
+      "company": "한화에어로스페이스",
+      "tail": "에 부합하는 독립경영 및 책임경영 체제를 확립하고 경영"
+    },
+    {
+      "doc_id": 2899,
+      "company": "한화에어로스페이스",
+      "tail": "에 부합하는 독립경영 및 책임경영 체제를 확립하고 경영"
+    }
+  ]
+}

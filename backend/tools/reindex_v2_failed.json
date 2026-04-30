@@ -1,0 +1,82 @@
+[
+  {
+    "source_file": "DART_P0_삼성화재해상보험_20260313001226.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P0_삼성화재해상보험_20260313001226.zip.pdf",
+    "doc_id": 961888372,
+    "company_name": "삼성화재해상보험",
+    "filing_type": "사업보고서",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P2_노무라인터내셔널펀딩피티이_20260309001219.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P2_노무라인터내셔널펀딩피티이_20260309001219.zip.pdf",
+    "doc_id": 723707370,
+    "company_name": "노무라인터내셔널펀딩피티이",
+    "filing_type": "분기보고서",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_KG스틸_20260313001182.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_KG스틸_20260313001182.zip.pdf",
+    "doc_id": 761154340,
+    "company_name": "KG스틸",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_KG스틸_20260313001198.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_KG스틸_20260313001198.zip.pdf",
+    "doc_id": 772990240,
+    "company_name": "KG스틸",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_엔에이치스팩29호_20260312000902.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_엔에이치스팩29호_20260312000902.zip.pdf",
+    "doc_id": 634953249,
+    "company_name": "엔에이치스팩29호",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_인카금융서비스_20260313000341.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_인카금융서비스_20260313000341.zip.pdf",
+    "doc_id": 842251529,
+    "company_name": "인카금융서비스",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_캔버스엔_20260313001179.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_캔버스엔_20260313001179.zip.pdf",
+    "doc_id": 192398293,
+    "company_name": "캔버스엔",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  },
+  {
+    "source_file": "DART_P3_퓨쳐켐_20260313000877.zip.pdf",
+    "source_path": "C:\\Users\\hibou\\Desktop\\DataSet\\DART_P3_퓨쳐켐_20260313000877.zip.pdf",
+    "doc_id": 842023065,
+    "company_name": "퓨쳐켐",
+    "filing_type": "기타",
+    "status": "failed",
+    "chunks_upserted": 0,
+    "error_reason": "Text extraction failed or too short"
+  }
+]

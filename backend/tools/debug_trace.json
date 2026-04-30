@@ -1,0 +1,68 @@
+[
+  {
+    "query": "LG에너지솔루션",
+    "internal_vars": {
+      "resolved_company": "LG에너지솔루션",
+      "terms": [
+        "LG에너지솔루션",
+        "LG 에너지솔루션",
+        "엘지 에너지솔루션",
+        "lg에너지솔루션",
+        "LG에너지",
+        "엘지에너지솔루션",
+        "엘지에너지"
+      ],
+      "stripped": "LG에너지솔루션",
+      "residual": "",
+      "company_only": true
+    }
+  },
+  {
+    "query": "엘지에너지솔루션",
+    "internal_vars": {
+      "resolved_company": "LG에너지솔루션",
+      "terms": [
+        "LG에너지솔루션",
+        "LG 에너지솔루션",
+        "엘지 에너지솔루션",
+        "lg에너지솔루션",
+        "LG에너지",
+        "엘지에너지솔루션",
+        "엘지에너지"
+      ],
+      "stripped": "엘지에너지솔루션",
+      "residual": "",
+      "company_only": true
+    }
+  },
+  {
+    "query": "현대글로비스",
+    "internal_vars": {
+      "resolved_company": "현대글로비스",
+      "terms": [
+        "현대글로비스",
+        "글로비스",
+        "hyundai glovis"
+      ],
+      "stripped": "현대글로비스",
+      "residual": "",
+      "company_only": true
+    }
+  },
+  {
+    "query": "현대차 망했나요?",
+    "internal_vars": {
+      "resolved_company": "현대자동차",
+      "terms": [
+        "hyundai",
+        "현대차",
+        "hyundai motor",
+        "현대자동차",
+        "현대"
+      ],
+      "stripped": "현대차 망했나요?",
+      "residual": "망했나요",
+      "company_only": false
+    }
+  }
+]

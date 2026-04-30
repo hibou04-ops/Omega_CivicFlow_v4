@@ -1,0 +1,8 @@
+{
+  "start_time": "2026-04-07T14:05:19.932274",
+  "total_documents": 3143,
+  "parsed_success": 3135,
+  "parsed_failed": 8,
+  "total_chunks_upserted": 279004,
+  "target_collection": "omega_documents_v2"
+}

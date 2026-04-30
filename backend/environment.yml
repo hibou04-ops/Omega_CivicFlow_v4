@@ -1,0 +1,17 @@
+## ═══════════════════════════════════════════════════════
+## Omega CivicFlow — Conda Environment Configuration
+## conda env create -f environment.yml
+## conda env update -f environment.yml --prune
+## ═══════════════════════════════════════════════════════
+
+name: doc-llm
+
+channels:
+  - defaults
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - -r requirements.txt

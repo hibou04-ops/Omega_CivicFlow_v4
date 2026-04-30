@@ -1,0 +1,118 @@
+{
+  "integrity": {
+    "manifest_total": 3143,
+    "manifest_success": 3135,
+    "manifest_failed": 8,
+    "chroma_total_chunks": 279004,
+    "sample_empty_chunks": 0,
+    "sample_missing_meta": 0,
+    "passed_integrity": true
+  },
+  "smoke_tests": [
+    {
+      "query": "단기차입금 현황 및 유동성 리스크",
+      "found_count": 3,
+      "top_results": [
+        {
+          "company": "LS증권",
+          "score": 0.4215,
+          "pareto": true
+        },
+        {
+          "company": "광진실업",
+          "score": 0.3765,
+          "pareto": false
+        },
+        {
+          "company": "하나30호스팩",
+          "score": 0.3746,
+          "pareto": false
+        }
+      ]
+    },
+    {
+      "query": "영업활동 현금흐름 요약",
+      "found_count": 3,
+      "top_results": [
+        {
+          "company": "폴라리스AI파마",
+          "score": 0.4965,
+          "pareto": true
+        },
+        {
+          "company": "한화에어로스페이스",
+          "score": 0.4507,
+          "pareto": false
+        },
+        {
+          "company": "LS증권",
+          "score": 0.4154,
+          "pareto": false
+        }
+      ]
+    },
+    {
+      "query": "우발부채 및 소송 현황",
+      "found_count": 3,
+      "top_results": [
+        {
+          "company": "LS증권",
+          "score": 0.42,
+          "pareto": true
+        },
+        {
+          "company": "폴라리스AI파마",
+          "score": 0.4114,
+          "pareto": false
+        },
+        {
+          "company": "광진실업",
+          "score": 0.3684,
+          "pareto": false
+        }
+      ]
+    },
+    {
+      "query": "자금조달 목적 (채무상환, 운영자금)",
+      "found_count": 3,
+      "top_results": [
+        {
+          "company": "솔트웨어",
+          "score": 0.4529,
+          "pareto": true
+        },
+        {
+          "company": "미래에셋비전스팩6호",
+          "score": 0.4197,
+          "pareto": false
+        },
+        {
+          "company": "우진엔텍",
+          "score": 0.4173,
+          "pareto": false
+        }
+      ]
+    },
+    {
+      "query": "감사의견 계속기업 관련 사항",
+      "found_count": 3,
+      "top_results": [
+        {
+          "company": "폴라리스AI파마",
+          "score": 0.6202,
+          "pareto": true
+        },
+        {
+          "company": "LS증권",
+          "score": 0.42,
+          "pareto": false
+        },
+        {
+          "company": "광진실업",
+          "score": 0.3684,
+          "pareto": false
+        }
+      ]
+    }
+  ]
+}

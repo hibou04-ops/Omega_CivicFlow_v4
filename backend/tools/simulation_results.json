@@ -1,0 +1,164 @@
+[
+  {
+    "scenario": "SK하이닉스 — 2025년 사업보고서",
+    "steps": [
+      {
+        "step": "input_schema",
+        "status": "PASS"
+      },
+      {
+        "step": "prompt_build",
+        "status": "PASS",
+        "chars": 810,
+        "est_tokens": 1053
+      },
+      {
+        "step": "system_prompt",
+        "status": "PASS",
+        "chars": 4901,
+        "est_tokens": 5391
+      },
+      {
+        "step": "response_parse",
+        "status": "PASS",
+        "decision": "partial_answer",
+        "primary_axis": "F",
+        "confidence": "INFERENCE",
+        "evidence_quality": "high"
+      },
+      {
+        "step": "column_mapping",
+        "status": "PASS",
+        "checks": {
+          "supervisor_decision": true,
+          "primary_axis": true,
+          "confidence_label": true,
+          "evidence_quality": true
+        }
+      },
+      {
+        "step": "cost_estimate",
+        "status": "INFO",
+        "cost": {
+          "input_cost_usd": 0.000967,
+          "output_cost_usd": 0.001864,
+          "total_cost_usd": 0.00283,
+          "total_cost_krw": 3.91
+        },
+        "latency_sec": 1.8
+      }
+    ],
+    "success": true,
+    "cost": {
+      "input_cost_usd": 0.000967,
+      "output_cost_usd": 0.001864,
+      "total_cost_usd": 0.00283,
+      "total_cost_krw": 3.91
+    }
+  },
+  {
+    "scenario": "카카오 — 감사보고서 (적정의견 + 핵심감사사항)",
+    "steps": [
+      {
+        "step": "input_schema",
+        "status": "PASS"
+      },
+      {
+        "step": "prompt_build",
+        "status": "PASS",
+        "chars": 734,
+        "est_tokens": 954
+      },
+      {
+        "step": "system_prompt",
+        "status": "PASS",
+        "chars": 4901,
+        "est_tokens": 5391
+      },
+      {
+        "step": "response_parse",
+        "status": "PASS",
+        "decision": "direct_answer",
+        "primary_axis": "F",
+        "confidence": "INFERENCE",
+        "evidence_quality": "high"
+      },
+      {
+        "step": "column_mapping",
+        "status": "PASS",
+        "checks": {
+          "supervisor_decision": true,
+          "primary_axis": true,
+          "confidence_label": true,
+          "evidence_quality": true
+        }
+      },
+      {
+        "step": "cost_estimate",
+        "status": "INFO",
+        "cost": {
+          "input_cost_usd": 0.000952,
+          "output_cost_usd": 0.001355,
+          "total_cost_usd": 0.002307,
+          "total_cost_krw": 3.18
+        },
+        "latency_sec": 1.8
+      }
+    ],
+    "success": true,
+    "cost": {
+      "input_cost_usd": 0.000952,
+      "output_cost_usd": 0.001355,
+      "total_cost_usd": 0.002307,
+      "total_cost_krw": 3.18
+    }
+  },
+  {
+    "scenario": "SUPERVISOR 실패 시나리오 — Graceful Fallback",
+    "steps": [
+      {
+        "step": "input_schema",
+        "status": "PASS"
+      },
+      {
+        "step": "prompt_build",
+        "status": "PASS",
+        "chars": 391,
+        "est_tokens": 508
+      },
+      {
+        "step": "system_prompt",
+        "status": "PASS",
+        "chars": 4901,
+        "est_tokens": 5391
+      },
+      {
+        "step": "response_parse",
+        "status": "PASS (expected_fail)",
+        "parse_error": "No JSON block found in supervisor response"
+      },
+      {
+        "step": "column_mapping",
+        "status": "PASS (fallback)"
+      },
+      {
+        "step": "cost_estimate",
+        "status": "INFO",
+        "cost": {
+          "input_cost_usd": 0.0,
+          "output_cost_usd": 0.0,
+          "total_cost_usd": 0.0,
+          "total_cost_krw": 0.0
+        },
+        "latency_sec": 0.0
+      }
+    ],
+    "success": true,
+    "cost": {
+      "input_cost_usd": 0.0,
+      "output_cost_usd": 0.0,
+      "total_cost_usd": 0.0,
+      "total_cost_krw": 0.0
+    }
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-04-08T02:26:41.192849+00:00",
+  "dry_run": false,
+  "db_path": "C:/Users/hibou/Omega_CivicFlow_v4_DB/omega_civicflow.db",
+  "chromadb_path": "C:/Users/hibou/Omega_CivicFlow_v4_DB/chroma_db",
+  "tables": {
+    "financial_facts": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "document_chunks": {
+      "current_count": 408,
+      "action": "DELETE_ALL"
+    },
+    "document_metadata": {
+      "current_count": 3,
+      "action": "DELETE_ALL"
+    },
+    "document_insights": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "analysis_results": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "reclassifications": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "ocr_texts": {
+      "current_count": 3,
+      "action": "DELETE_ALL"
+    },
+    "pages": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "company_profiles": {
+      "current_count": 0,
+      "action": "DELETE_ALL"
+    },
+    "documents": {
+      "current_count": 3,
+      "action": "DELETE_ALL"
+    },
+    "users": {
+      "current_count": 5,
+      "action": "KEEP"
+    }
+  },
+  "backup_path": "C:\\Users\\hibou\\Omega_CivicFlow_v4_DB\\omega_civicflow_backup_20260408_1126.db",
+  "actions": [
+    "BACKUP:C:\\Users\\hibou\\Omega_CivicFlow_v4_DB\\omega_civicflow_backup_20260408_1126.db",
+    "DELETE_ALL:financial_facts",
+    "DELETE_ALL:document_chunks",
+    "DELETE_ALL:document_metadata",
+    "DELETE_ALL:document_insights",
+    "DELETE_ALL:analysis_results",
+    "DELETE_ALL:reclassifications",
+    "DELETE_ALL:ocr_texts",
+    "DELETE_ALL:pages",
+    "DELETE_ALL:company_profiles",
+    "DELETE_ALL:documents",
+    "DELETE_COLLECTION:omega_documents_v2",
+    "CREATE_COLLECTION:omega_documents_v2",
+    "VALIDATION_PASSED"
+  ]
+}

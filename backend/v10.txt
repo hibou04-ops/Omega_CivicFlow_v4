@@ -1,0 +1,42 @@
+python :   File "<string>", line 1
+위치 줄:1 문자:30
++ ... tivate.ps1; python -c "import 
+json,sys;sys.stdout.reconfigure(enco
+din ...
++                 ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          : NotSp 
+   ecified: (  File "<string>", li  
+  ne 1:String) [], RemoteExceptio   
+ n
+    + FullyQualifiedErrorId : Nativ 
+   eCommandError
+ 
+    import json,sys;sys.stdout.recon
+figure(encoding='utf-8',errors='repl
+ace');from database import SessionLo
+cal;from models.models import Docume
+nt,AnalysisResult;db=SessionLocal();
+docs=db.query(Document).filter(Docum
+ent.status=='analyzed').order_by(Doc
+ument.id).limit(10).all();[print(f'd
+oc#{d.id}|cat={getattr(db.query(Anal
+ysisResult).filter(AnalysisResult.do
+cument_id==d.id).order_by(AnalysisRe
+sult.id.desc()).first()," category\,
+\?\)
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                        ^
+SyntaxError: unterminated string lit
+eral (detected at line 1)

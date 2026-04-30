@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════
+# Omega CivicFlow — Backend Dependencies
+# 해밀토니안 최적화 경로 (Hamiltonian Optimal Path)
+# 재설계 문서 버전 동기화: 2026-03-15
+# ═══════════════════════════════════════════════════════
+
+# --- Core Framework ---
+fastapi==0.135.1
+uvicorn[standard]==0.41.0
+email-validator==2.3.0
+pydantic==2.11.1
+pydantic-settings==2.13.1
+
+# --- Database ---
+SQLAlchemy==2.0.48
+alembic==1.18.4
+psycopg[binary]==3.3.3
+
+# --- Auth / Security ---
+python-jose[cryptography]==3.5.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.2.1
+python-multipart==0.0.22
+
+# --- OCR Engine ---
+paddlepaddle==3.3.0
+paddleocr==3.4.0
+pillow==12.1.1
+
+# --- LLM Client ---
+ollama==0.6.1
+httpx==0.28.1
+
+# --- Utilities ---
+python-dotenv==1.0.1
+aiofiles==24.1.0
+pdf2image==1.17.0

@@ -1,15 +1,269 @@
 # ═══════════════════════════════════════════════════════════
-# Omega CivicFlow v4 — Whitelist .gitignore
+# Omega CivicFlow v4 — Public release .gitignore
 #
-# 전략: 기본은 "모두 차단", README + .gitignore 만 명시적 허용
-# 이유: 실제 구현 코드와 시스템 프롬프트는 비공개 유지,
-#       이력서 리뷰어에게는 README 만 노출, 구동 시연은 별도 진행
+# 전략: blacklist 방식. 코어 코드는 공개, 그 외는 모두 차단.
+# 비공개 항목: secrets, insight 로직, 개인정보, 데이터, 캐시,
+#             내부 문서, 일회성 산출물, 워크플로우 외 파일
 # ═══════════════════════════════════════════════════════════
 
-# 기본: 모든 파일·디렉토리 차단
-*
+# ── Secrets (실제 키/토큰) ──
+.env
+.env.local
+.env.*.local
+.env.dev
+.env.production
+**/keys/
+service_account*.json
+gcp_*.json
+*.pem
+*.key
+*credentials*.json
+client_secret*.json
 
-# 명시적 허용 (루트 레벨만)
-!README.md
-!.gitignore
+# ── 개인정보 / 이력서 / 핸드오프 ──
+곽경훈*
+*이력서*
+*resume*
+*RESUME*
+RESUME_HANDOFF.md
+
+# ── 프로젝트 메타 노출 금지 (사용자 지정) ──
+CLAUDE.md
+AGENTS.md
+
+# ── Insight 로직 (proprietary, 비공개 유지) ──
+backend/services/insight_service.py
+backend/services/omega_supervisor.py
+backend/prompts/omega_prime_civicflow.md
+backend/prompts/
+backend/agents/prompts.py
+backend/schemas/supervisor_schemas.py
+backend/test_insight.py
+backend/tools/test_live_supervisor.py
+backend/tools/simulate_supervisor.py
+backend/tools/migrate_supervisor_columns.py
+.tmp_insight_service_*.py.bak
+.tmp_insight_service_*.bak
+
+# ── 내부 문서 / 발표 자료 ──
+Phase4_Plan.pdf
+Omega_CivicFlow_RAG_Architecture_Guide.pdf
+Omega_CivicFlow_v4_발표학습자료*.pdf
+Omega_CivicFlow_v4_accurate.pptx
+프로그램목록_*.xlsx
+PHASE3_A100_DEPLOYMENT.md
+PHASE3_COLAB_GUIDE.md
+phase_a_bge_m3_sanity_check.md
+
+# ── 데이터 / 대용량 / 임베딩 ──
+*.jsonl
+*.parquet
+*.arrow
+*.feather
+*.npy
+*.npz
+*.h5
+*.hdf5
+financial_embeddings.jsonl
+financial_chunks.jsonl
+colab_vector_export.json
+results_all.jsonl
+dataset_qc_report.json
+chatbot_profile.json
+correction_audit.json
+_qc_critical_ids.json
+
+# ── DB 파일 ──
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+chroma_db/
+chromadb/
+**/chroma_db/
+**/chromadb/
+
+# ── 업로드 / 데이터셋 / 결과 ──
+**/data/uploads/
+**/data/datasets/
+**/data/chroma_db/
+**/data/raw/
+**/data/processed/
+backend/data/
+backend/results/
+backend/tmp/
+data/uploads/
+data/datasets/
+uploads/
+datasets/
+
+# ── ML 가중치 / 캐시 ──
+models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.onnx
+checkpoints/
+
+# ── tools/ 안 큰 산출물 ──
+tools/v8/
+tools/v12/
+tools/ragas/
+tools/rag_pdf_pages/
+tools/labelstudio_tasks_minimal_chunks/
+tools/_*.jsonl
+tools/_chunks_v2.jsonl
+tools/_*.txt
+tools/audit_*.txt
+tools/audit_*.json
+tools/*_result.txt
+tools/*_output.txt
+tools/json_check_result.txt
+tools/overflow_result.txt
+tools/overlap_result.txt
+tools/quality_result.txt
+tools/update_log.txt
+tools/verify_log.txt
+tools/summary_samples.txt
+tools/pptx_content.txt
+tools/pptx_info.txt
+tools/path_audit.py
+tools/가이드.txt
+
+# ── Python venv / cache ──
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+.uv-cache/
+.uv-python/
+
+# ── Node / frontend build ──
+node_modules/
+dist/
+build/
+.next/
+.vite/
+*.tsbuildinfo
+
+# ── 일회성 분석 / 디버그 산출물 ──
+backend/_*.py
+backend/_*.txt
+backend/_*.json
+backend/audit_*.txt
+backend/audit_*.json
+backend/correction_audit.*
+backend/chinese_pattern.txt
+backend/chinese_final.txt
+backend/chinese_*.txt
+backend/chroma_cn_output.txt
+backend/qc_*.txt
+backend/qc_*.json
+backend/_qc_*.json
+backend/zero_byte_docs.txt
+backend/hwp_text_output.txt
+backend/fix_output.txt
+backend/fix2_output.txt
+backend/reanalyze_output.txt
+backend/fix_truncated_ocr.log
+backend/pdf_regen.log
+backend/qlora_training_data.jsonl
+backend/chatbot_profile.json
+backend/correction_audit.txt
+backend/correction_audit.json
+backend/civicflow.db*
+
+# ── 루트 일회성 / 임시 파일 ──
+_tmp_*
+*_tmp_*
+.tmp_*
+.tmp_xml2/
+*.bak
+*~
+*.swp
+*.swo
+llm_diff.txt
+move_large_files.js
+patch_pdf.py
+measure_performance.py
+AGENT_IS_ALIVE_TEST.txt
+mplementing*
+financial_chunks.jsonl
+financial_embeddings.jsonl
+results_all.jsonl
+colab_vector_export.json
+chatbot_training_data.jsonl
+
+# ── Notebook outputs (큰 경우) ──
+.ipynb_checkpoints/
+
+# ── Logs ──
+*.log
+logs/
+**/logs/
+
+# ── IDE / OS ──
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.suo
+*.user
+
+# ── 기타 ──
 .gstack/
+.claude/
+backend/_check_*.py
+backend/_extract_*.py
+backend/_test_*.py
+backend/_chunks*.jsonl
+
+# ── Obsidian vaults / 내부 노트 (의사결정/문제/숫자 dump) ──
+vault/
+"vault*
+CivicFlow/
+notes/
+.obsidian/
+**/.obsidian/
+**/.trash/
+
+# ── scratch / 임시 작업물 (이력서 추출 데이터 포함) ──
+scratch/
+temp_count.*
+ping_*.py
+
+# ── backend/tools/ 일회성 checkpoint / output ──
+backend/tools/_*.jsonl
+backend/tools/_*.json
+backend/tools/*_checkpoint.json
+backend/tools/*_output.jsonl
+backend/tools/*_output.txt
+backend/tools/*.log
+backend/tools/reindex_v2_manifest.json
+backend/tools/clean_reset_checkpoint.json
+backend/tools/batch_fill_checkpoint.json
+backend/tools/batch_ingest_checkpoint.json
+backend/tools/_chunk_checkpoint.json
+backend/tools/_chunks_output.jsonl
+
+# ── 추가 안전망: 어떤 .env도 차단 (예시 제외) ──
+**/.env
+**/.env.local
+**/.env.dev
+**/.env.production
+!**/.env.example
