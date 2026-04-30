@@ -109,30 +109,8 @@ models/
 *.onnx
 checkpoints/
 
-# ── tools/ 안 큰 산출물 ──
-tools/v8/
-tools/v12/
-tools/ragas/
-tools/rag_pdf_pages/
-tools/labelstudio_tasks_minimal_chunks/
-tools/_*.jsonl
-tools/_chunks_v2.jsonl
-tools/_*.txt
-tools/audit_*.txt
-tools/audit_*.json
-tools/*_result.txt
-tools/*_output.txt
-tools/json_check_result.txt
-tools/overflow_result.txt
-tools/overlap_result.txt
-tools/quality_result.txt
-tools/update_log.txt
-tools/verify_log.txt
-tools/summary_samples.txt
-tools/pptx_content.txt
-tools/pptx_info.txt
-tools/path_audit.py
-tools/가이드.txt
+# ── tools/ 전체 차단 (Colab / QLoRA 학습 / 마이그레이션 / 분석 — 운영에 불필요) ──
+tools/
 
 # ── Python venv / cache ──
 venv/
